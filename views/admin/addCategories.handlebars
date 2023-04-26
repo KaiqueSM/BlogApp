@@ -1,0 +1,19 @@
+
+{{#each errors}}
+    <div class="alert alert-danger">{{text}}</div>
+{{/each}}
+
+<h3>Nova categoria: </h3>
+<div class="card">
+    <div class="card-body">
+        <form action="/admin/categories/add" method="post">
+            <label for="name">Nome: </label>
+            <input type="text" name="name" id="name" class="form-control" placeholder="Nome da categoria">
+
+            <label for="slug">Slug: </label>
+            <input type="text" name="slug" id="slug" class="form-control" placeholder="Slug da categoria">
+
+            <button type="submit" class="btn btn-success mt-3">Adicionar</button>
+        </form>
+    </div>
+</div>
