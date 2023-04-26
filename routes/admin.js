@@ -106,7 +106,6 @@ router.post('/categories/delete', (req, res) => {
 
 router.get('/posts', (req, res) => {
     Post.find().populate('category').sort({date: 'desc'}).lean().then((posts) => {
-        console.log(posts)
         res.render('admin/posts', {posts})
     }).catch((err) => {
         console.log(err)
@@ -124,19 +123,7 @@ router.get('/posts/add', (req, res) => {
 })
 router.post('/posts/add', (req, res) => {
 
-    let title = req.body.title
-    let slug = req.body.slug
-    let description = req.body.description
-    let content = req.body.content
-    let category = req.body.category
-
-    let post = {
-        title,
-        slug,
-        description,
-        content,
-        category
-    }
+    let post = getPost(req)
 
     let errors = validatePost(post)
 
@@ -151,6 +138,52 @@ router.post('/posts/add', (req, res) => {
             req.flash('error_msg', 'Erro ao salvar categoria :( \n Tente novamente!')
         })
         res.redirect('/admin/posts')
+    }
+})
+
+router.get('/posts/edit/:id', (req, res) => {
+    Category.find().sort({date: 'desc'}).lean().then((categories) => {
+        Post.findOne({_id: req.params.id}).populate('category').lean().then((post) => {
+            res.render('admin/editPosts', {post, categories})
+        }).catch((err) => {
+            req.flash('error_msg', 'Esse post não existe!')
+            res.redirect('/admin/posts')
+        })
+    }).catch((err) => {
+        req.flash('error_msg', 'Erro ao carregar formulário :(')
+        res.redirect('/admin/posts')
+    })
+})
+router.post('/posts/edit/', (req, res) => {
+    let id = req.body.id
+    let newPostData = getPost(req)
+    let errors = validatePost(newPostData)
+
+    if (errors.length > 0) {
+        res.render("admin/posts", {errors})
+    } else {
+        Post.findOne({_id: id}).then((post) => {
+            post.title = newPostData.title
+            post.slug = newPostData.slug
+            post.description = newPostData.description
+            post.content = newPostData.content
+            post.category = newPostData.category
+
+            post.save().then(() => {
+                console.log('Post editado com sucesso')
+                req.flash('success_msg', 'Post editado com sucesso')
+                res.redirect('/admin/posts')
+            }).catch((err) => {
+                console.log("Erro ao editar post: " + err)
+                req.flash('error_msg', 'Erro ao editar post')
+                res.redirect('/admin/posts')
+            })
+
+        }).catch((err) => {
+            console.log("Erro ao editar post: " + err)
+            req.flash('error_msg', 'Erro ao editar post')
+            res.redirect('/admin/posts')
+        })
     }
 })
 
@@ -179,6 +212,22 @@ const validatePost = (post) => {
         errors.push({text: "Registre uma categoria antes de registrar um post!!"})
 
     return errors
+}
+
+const getPost = (req) => {
+    let title = req.body.title
+    let slug = req.body.slug
+    let description = req.body.description
+    let content = req.body.content
+    let category = req.body.category
+
+    return {
+        title,
+        slug,
+        description,
+        content,
+        category
+    }
 }
 
 module.exports = router
