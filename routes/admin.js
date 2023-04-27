@@ -186,6 +186,18 @@ router.post('/posts/edit/', (req, res) => {
         })
     }
 })
+router.post('/posts/delete', (req, res) => {
+    Post.deleteOne({_id: req.body.id}).then(() => {
+        console.log('Post removida com sucesso')
+        req.flash('success_msg', 'Post removida com sucesso')
+        res.redirect('/admin/posts')
+    }).catch((err) => {
+        console.log("Erro ao remover post: " + err)
+        req.flash('error_msg', 'Erro ao remover post')
+        res.redirect('/admin/posts')
+    })
+})
+
 
 const validateCategory = (name, slug) => {
     let errors = []
