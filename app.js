@@ -8,6 +8,8 @@
     const admin = require('./routes/admin')
     const session = require('express-session')
     const flash = require('connect-flash')
+    require('./models/Posts')
+    const Post = mongoose.model('posts')
 // Config
 
     // Session
@@ -50,7 +52,13 @@
 // Rotas
 
     app.get('/', (req, res) => {
-        res.send('Página principal')
+
+        Post.find().populate('category').sort({date: 'desc'}).lean().then((posts) => {
+            res.render('index', {posts})
+        }).catch((err) => {
+            console.log('Erro ao carregar página inicial :(')
+            res.render('index')
+        })
     })
 
     app.get('/posts', (req, res) => {

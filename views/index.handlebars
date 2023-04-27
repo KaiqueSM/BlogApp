@@ -1,0 +1,31 @@
+
+<div class="jumbotron">
+    <h1 class="display-4">Bem vindo ao Node Blog!</h1>
+    <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+    <hr class="my-4">
+    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+    <a class="btn btn-primary btn-lg" href="#" role="button">Criar conta</a>
+</div>
+<hr>
+<h2>Posagens recentes: </h2>
+{{#each posts}}
+    <div class="card mt-4">
+        <div class="card-body">
+            <h4>{{title}}</h4>
+            <p>Descrição: {{description}}</p>
+            <small>Data: {{date}}</small><br>
+            <small>Categoria: {{category.name}}</small><br>
+            <a href="/admin/posts/edit/{{_id}}">
+                <button class="btn btn-success">Editar</button>
+            </a>
+            <form action="/admin/posts/delete" method="post">
+                <label for="id"></label><input type="text" name="id" id="id" value="{{_id}}" hidden>
+                <button type="submit" class="btn btn-danger mt-2">Deletar</button>
+            </form>
+        </div>
+    </div>
+
+{{else}}
+    <h4 class="mt-4">Nenhum post registrado :(</h4>
+{{/each}}
+
