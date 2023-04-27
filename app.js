@@ -61,6 +61,20 @@
         })
     })
 
+    app.get('/post/:slug', (req, res) => {
+        Post.findOne({slug: req.params.slug}).lean().then((post) => {
+            if (post){
+                res.render('post/index', {post})
+            }else{
+                req.flash('error_msg', 'Este post não existe!')
+                res.redirect('/')
+            }
+        }).catch((err) => {
+            console.log('Erro ao carregar post :(')
+            res.redirect('/')
+        })
+    })
+
     app.get('/posts', (req, res) => {
         res.send('Lista de posts')
     })

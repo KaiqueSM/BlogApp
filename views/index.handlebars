@@ -1,9 +1,9 @@
 
 <div class="jumbotron">
     <h1 class="display-4">Bem vindo ao Node Blog!</h1>
-    <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+    <p class="lead">Este é um blog desenvolvido em Node + Express + MongoDB</p>
     <hr class="my-4">
-    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+    <p>Aqui você poderá ter atualizações sobre o mundo da computação</p>
     <a class="btn btn-primary btn-lg" href="#" role="button">Criar conta</a>
 </div>
 <hr>
@@ -13,15 +13,10 @@
         <div class="card-body">
             <h4>{{title}}</h4>
             <p>Descrição: {{description}}</p>
-            <small>Data: {{date}}</small><br>
+            <a href="/post/{{slug}}"><button class="btn btn-success">Ler mais</button></a>
+            <hr>
             <small>Categoria: {{category.name}}</small><br>
-            <a href="/admin/posts/edit/{{_id}}">
-                <button class="btn btn-success">Editar</button>
-            </a>
-            <form action="/admin/posts/delete" method="post">
-                <label for="id"></label><input type="text" name="id" id="id" value="{{_id}}" hidden>
-                <button type="submit" class="btn btn-danger mt-2">Deletar</button>
-            </form>
+            <small>Data: {{date}}</small><br>
         </div>
     </div>
 
