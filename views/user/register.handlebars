@@ -1,0 +1,21 @@
+
+<h4>Crie sua conta hoje: </h4>
+<div class="card">
+    <div class="card-body">
+        <form action="/user/register" method="post">
+            <label for="name">Nome </label>
+            <input type="text" name="name" id="name" minlength="8" class="form-control" placeholder="Nome" required/>
+            <label for="email">Email </label>
+            <input type="email" name="email" id="email" class="form-control" placeholder="Email" required/>
+            <label for="password">Senha </label>
+            <input type="password" name="password" id="password"
+                   minlength="8" maxlength="24"
+                   class="form-control" placeholder="Senha" required/>
+            <label for="password2">Confirmar Senha </label>
+            <input type="password" name="password2" id="password2"
+                   minlength="8" maxlength="24"
+                   class="form-control" placeholder="Confirmar Senha" required/>
+            <button type="submit" class="btn btn-success mt-4">Criar conta</button>
+        </form>
+    </div>
+</div>

@@ -6,6 +6,7 @@
     const path = require('path')
     const app = express()
     const admin = require('./routes/admin')
+    const user = require('./routes/user')
     const session = require('express-session')
     const flash = require('connect-flash')
     require('./models/Posts')
@@ -106,6 +107,7 @@
     })
 
     app.use('/admin', admin)
+    app.use('/user', user)
 // Outros
 // Rodando server
     const PORT = 8001
