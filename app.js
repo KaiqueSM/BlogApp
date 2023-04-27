@@ -10,6 +10,8 @@
     const flash = require('connect-flash')
     require('./models/Posts')
     const Post = mongoose.model('posts')
+    require('./models/Category')
+    const Category = mongoose.model('categories')
 // Config
 
     // Session
@@ -52,7 +54,6 @@
 // Rotas
 
     app.get('/', (req, res) => {
-
         Post.find().populate('category').sort({date: 'desc'}).lean().then((posts) => {
             res.render('index', {posts})
         }).catch((err) => {
@@ -75,8 +76,33 @@
         })
     })
 
-    app.get('/posts', (req, res) => {
-        res.send('Lista de posts')
+    app.get('/categories', (req, res) => {
+        Category.find().sort({date: 'desc'}).lean().then((categories) => {
+            res.render('category/index', {categories})
+        }).catch((err) => {
+            console.log('Erro ao carregar categorias :(')
+            res.redirect('/')
+        })
+    })
+    app.get('/categories/:slug', (req, res) => {
+        Category.findOne({slug: req.params.slug}).lean().then((category) => {
+            if (category){
+                Post.find({category: category._id}).lean().then((posts) => {
+                    res.render('category/posts', {category, posts})
+                }).catch((err) => {
+                    console.log('Erro ao carregar a paginda da categoria :(')
+                    req.flash('Erro ao carregar a paginda da categoria :(')
+                    res.redirect('/')
+                })
+            }else{
+                req.flash('Essa categoria não existe')
+                res.redirect('/categories')
+            }
+        }).catch((err) => {
+            console.log('Erro ao carregar a paginda da categoria :(')
+            req.flash('Erro ao carregar a paginda da categoria :(')
+            res.redirect('/')
+        })
     })
 
     app.use('/admin', admin)
