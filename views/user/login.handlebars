@@ -1,0 +1,15 @@
+
+<h4>Login: </h4>
+<div class="card">
+    <div class="card-body">
+        <form action="/user/login" method="post">
+            <label for="email">Email </label>
+            <input type="email" name="email" id="email" class="form-control" placeholder="Email" required/>
+            <label for="password">Senha </label>
+            <input type="password" name="password" id="password"
+                   minlength="8" maxlength="24"
+                   class="form-control" placeholder="Senha" required/>
+            <button type="submit" class="btn btn-success mt-4">Login</button>
+        </form>
+    </div>
+</div>
