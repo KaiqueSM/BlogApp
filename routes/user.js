@@ -68,5 +68,15 @@ router.post('/login', (req, res, next) => {
     })(req,res,next)
 })
 
+router.get('/logout', (req, res) => {
+    req.logout((err) => {
+        if (err)
+            req.flash('error_msg', 'Erro ao efetuar Logout :(!')
+        else
+            req.flash('success_msg', 'Logout efetuado com sucesso!')
+        res.redirect('/')
+    })
+})
+
 
 module.exports = router
