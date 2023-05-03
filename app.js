@@ -116,7 +116,7 @@
     app.use('/user', user)
 // Outros
 // Rodando server
-    const PORT = 8001
+    const PORT = process.env.PORT || 8001
     app.listen(PORT, () => {
         console.log(`Server runing in port: ${PORT}`)
     })
